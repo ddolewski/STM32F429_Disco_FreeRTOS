@@ -1,14 +1,3 @@
-/**
-  ******************************************************************************
-  * @file    main.c
-  * @author  Ac6
-  * @version V1.0
-  * @date    01-December-2013
-  * @brief   Default main function.
-  ******************************************************************************
-*/
-
-
 #include "global.h"
 #include <math.h>
 #include <stdio.h>
@@ -158,7 +147,6 @@ static void vhButton_Init(void)
 	GPIO_InitDef.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_InitDef.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_InitDef.GPIO_Speed = GPIO_Speed_100MHz;
-	//Initialize pins
 	GPIO_Init(BUTTON_GPIO, &GPIO_InitDef);
 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
@@ -178,8 +166,6 @@ static void vhButton_Init(void)
 	NVIC_EXTI_InitDef.NVIC_IRQChannelSubPriority = 0;
 	NVIC_EXTI_InitDef.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_EXTI_InitDef);
-
-//	NVIC_SetPriority(EXTI0_IRQn, NVIC_EncodePriority(4, configLIBRARY_LOWEST_INTERRUPT_PRIORITY, 0x00));
 }
 
 static void vhLed_Init (void)
@@ -198,12 +184,10 @@ static void vhLed_Init (void)
 
 void EXTI0_IRQHandler(void){
 	long xHigherPriorityTaskWoken = pdFALSE;
-	if(EXTI_GetITStatus(EXTI_Line0) != RESET){
-	/* Toggle LED3 */
-	vhToggleLED2();
 
-	/* Clear the EXTI line 0 pending bit */
-	EXTI_ClearITPendingBit(EXTI_Line0);
+	if(EXTI_GetITStatus(EXTI_Line0) != RESET){
+		vhToggleLED2();
+		EXTI_ClearITPendingBit(EXTI_Line0);
 	}
 
 	portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
@@ -211,11 +195,6 @@ void EXTI0_IRQHandler(void){
 
 static void vStartLEDTasks (void)
 {
-//	xTaskHandle xHandleTaskLED1 = NULL, xHandleTaskLED2 = NULL;
-//	//todo szacowanie rozmiaru taska -> czemu zwraca 0 ?
-//	UBaseType_t led1TaskSize = uxTaskGetStackHighWaterMark(xHandleTaskLED1);
-//	UBaseType_t led2TaskSize = uxTaskGetStackHighWaterMark(xHandleTaskLED1);
-
 	xTaskCreate(vTaskLED1, (signed portCHAR *) "LED1", configMINIMAL_STACK_SIZE, NULL, mainLED_TASK_PRIORITY, NULL );
 //	xTaskCreate(vTaskLED2, (signed portCHAR *) "LED2", configMINIMAL_STACK_SIZE, NULL, mainLED_TASK_PRIORITY, NULL );
 }
