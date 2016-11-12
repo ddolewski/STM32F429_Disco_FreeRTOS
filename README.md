@@ -13,13 +13,19 @@ W celu prawidłowego działania konfiguracji OpenOCD należy:
 oraz pliki binarne OpenOCD z linków poniżej:
 
 http://gnuarmeclipse.github.io/openocd/ - instalacja oraz konfiguracja 
+
 http://gnuarmeclipse.sourceforge.net/updates - plugin eclipse
 
 2) Skonfigurować poprawnie ustawienia Eclipse dla danego systemu operacyjnego (Linux/Windows/MacOS)
 tzn. wskazać ścieżkę openocd i jego zależności oraz gdb (Window->Preferences->Run/Debug->String Substitution):
 
 openocd_path
+
 openocd_executable
+
 gdb_path
+
 gdp_executable
+
 openocd_boards
+
