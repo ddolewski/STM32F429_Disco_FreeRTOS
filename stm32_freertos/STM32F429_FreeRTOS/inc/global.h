@@ -22,13 +22,6 @@
 #include "stm32f4xx_usart.h"
 #include "tm_stm32f4_disco.h"
 
-
-#define FIRMWARE_VERSION_MAJOR 			1
-#define FIRMWARE_VERSION_MINOR 			0
-
-#define DEVICE_IDEN						'Z','X','X','X'
-#define IDEN_PRODUCT					'C','L','K','C'
-
 #define DEBUG_MODE
 
 #ifdef DEBUG_MODE
@@ -73,9 +66,5 @@ typedef void (*fun_ptr_t)(void);
 #define MIN(X,Y) 				((X)<(Y)?(X):(Y))
 #define ABS_DIF(X,Y)			(MAX(X,Y) - MIN(X,Y))
 #define ABS(X)           		(((X) < 0) ? -(X) : (X))
-
-
-
-extern xQueueHandle RxQueue, TxQueue;
 
 #endif
