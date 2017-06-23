@@ -19,6 +19,13 @@ static void vTaskLED_Green(void * pvParameters);
 static void vhButton_Init(void);
 static void vHardwareSetup (void);
 
+typedef enum
+{
+	FRAME_BASIC_MEAS,
+	FRAME_PH_WATER,
+	FRAME_PH_SOIL
+}frame_type_t;
+
 int main (void)
 {
 	vHardwareSetup();
@@ -110,11 +117,37 @@ static void vTaskLED_Green (void * pvParameters)
 	portTickType xLastFlashTime;
 
 	xLastFlashTime = xTaskGetTickCount();
+	frame_type_t frameFlag = FRAME_BASIC_MEAS;
+
 	while (TRUE)
 	{
 		vTaskDelayUntil(&xLastFlashTime, 500/portTICK_RATE_MS);
 		vhToggleLED(LED4_PIN);
-		vSerialPutString((char*)"STA MEAS 47 15426 24.3 25.1 24.6 6.78 0 END");
+
+		switch (frameFlag)
+		{
+		case FRAME_BASIC_MEAS:
+			//STA PRIMARYMEAS hum lux temp1 temp2 temp3 soil END
+			vSerialPutString((char*)"STA PRIMARYMEAS 47 15426 24.3 25.1 24.6 0 END");
+			frameFlag = FRAME_PH_SOIL;
+			break;
+
+		case FRAME_PH_SOIL:
+			//STA PHW waterPh END
+			vSerialPutString((char*)"STA PHW 6.78 END");
+			frameFlag = FRAME_PH_WATER;
+			break;
+
+		case FRAME_PH_WATER:
+			//STA PHW waterPh END
+			vSerialPutString((char*)"STA PHS 4.89 END");
+			frameFlag = FRAME_BASIC_MEAS;
+			break;
+
+		default:
+			vSerialPutString((char*)"NONE FRAME!\r\n");
+			break;
+		}
 	}
 }
 
