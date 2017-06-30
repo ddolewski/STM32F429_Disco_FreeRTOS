@@ -132,14 +132,14 @@ static void vTaskLED_Green (void * pvParameters)
 			frameFlag = FRAME_PH_SOIL;
 			break;
 
-		case FRAME_PH_SOIL:
+		case FRAME_PH_WATER:
 			//STA PHW waterPh END
 			vSerialPutString((char*)"STA PHW 6.78 END");
 			frameFlag = FRAME_PH_WATER;
 			break;
 
-		case FRAME_PH_WATER:
-			//STA PHW waterPh END
+		case FRAME_PH_SOIL:
+			//STA PHS soilPh END
 			vSerialPutString((char*)"STA PHS 4.89 END");
 			frameFlag = FRAME_BASIC_MEAS;
 			break;
