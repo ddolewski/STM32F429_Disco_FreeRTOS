@@ -121,26 +121,26 @@ static void vTaskLED_Green (void * pvParameters)
 
 	while (TRUE)
 	{
-		vTaskDelayUntil(&xLastFlashTime, 500/portTICK_RATE_MS);
+		vTaskDelayUntil(&xLastFlashTime, 1000/portTICK_RATE_MS);
 		vhToggleLED(LED4_PIN);
 
 		switch (frameFlag)
 		{
 		case FRAME_BASIC_MEAS:
 			//STA PRIMARYMEAS hum lux temp1 temp2 temp3 soil END
-			vSerialPutString((char*)"STA PRIMARYMEAS 47 15426 24.3 25.1 24.6 0 END");
+			vSerialPutString((char*)"STA PRIMARYMEAS 47 15426 24.3 25.1 24.6 WET END ");
 			frameFlag = FRAME_PH_SOIL;
 			break;
 
 		case FRAME_PH_WATER:
 			//STA PHW waterPh END
-			vSerialPutString((char*)"STA PHW 6.78 END");
+			vSerialPutString((char*)"STA PHW 6.78 END ");
 			frameFlag = FRAME_PH_WATER;
 			break;
 
 		case FRAME_PH_SOIL:
 			//STA PHS soilPh END
-			vSerialPutString((char*)"STA PHS 4.89 END");
+			vSerialPutString((char*)"STA PHS 4.89 END ");
 			frameFlag = FRAME_BASIC_MEAS;
 			break;
 
